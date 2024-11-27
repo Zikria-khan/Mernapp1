@@ -10,7 +10,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO with CORS settings
 const io = new Server(server, {
   cors: {
-    origin: "https://mernapp1.vercel.app", // Allow requests from this origin
+    origin: "https://mernapp1-i423.vercel.app", // Allow requests from this origin
     methods: ["GET", "POST"],            // Allow these HTTP methods
   },
 });
