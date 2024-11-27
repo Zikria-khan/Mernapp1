@@ -8,11 +8,23 @@ const app = express();
 const server = http.createServer(app);
 
 // Initialize Socket.IO with CORS settings
-const io = new Server(server, {
+const io = require("socket.io")(server, {
   cors: {
-    origin: "https://mernapp1-i423.vercel.app", // Allow requests from this origin
-    methods: ["GET", "POST"],            // Allow these HTTP methods
+      origin: "https://your-frontend-domain.com", // Replace with your frontend's domain
+      methods: ["GET", "POST"],
+      credentials: true, // If using cookies or authentication
   },
+  transports: ["polling", "websocket"], // Match frontend transport settings
+});
+
+// Handling socket connection
+io.on("connection", (socket) => {
+  const userId = socket.handshake.query.userId; // Access userId from query
+  console.log("User connected:", userId);
+
+  socket.on("disconnect", () => {
+      console.log("User disconnected:", userId);
+  });
 });
 
 // Store user connections
@@ -23,26 +35,35 @@ export const getReceiverSocketId = (receiverId) => users[receiverId] || null;
 
 // Handle Socket.IO events
 io.on("connection", (socket) => {
-  console.log("A user connected", socket.id);
-
-  // Retrieve `userId` from query parameters
-  const userId = socket.handshake.query.userId;
-  if (userId) {
-    users[userId] = socket.id; // Map `userId` to `socket.id`
-    console.log("Active users:", users);
-  }
-
-  // Emit the list of online users to all connected clients
-  io.emit("getOnlineUsers", Object.keys(users));
-
-  // Handle disconnection
-  socket.on("disconnect", () => {
-    console.log("A user disconnected", socket.id);
-    if (userId) {
-      delete users[userId]; // Remove user from active list
-      io.emit("getOnlineUsers", Object.keys(users)); // Update online users
+  try {
+    const userId = socket.handshake.query.userId; // Access userId from query
+    console.log("User connected:", userId);
+    
+    if (!userId) {
+      throw new Error("User ID is required.");
     }
-  });
+
+    users[userId] = socket.id; // Store the socket ID for the user
+    console.log("Active users:", users);
+
+    // Emit online users list
+    io.emit("getOnlineUsers", Object.keys(users));
+
+    // Handle disconnection
+    socket.on("disconnect", () => {
+      try {
+        console.log("User disconnected:", userId);
+        delete users[userId]; // Remove from active user list
+        io.emit("getOnlineUsers", Object.keys(users)); // Emit updated online users
+      } catch (err) {
+        console.error("Error during disconnect:", err);
+      }
+    });
+  } catch (err) {
+    console.error("Error in connection:", err.message);
+    socket.emit("error", "Something went wrong with the socket connection.");
+  }
 });
+
 
 export { app, io, server };

@@ -22,7 +22,9 @@ export const SocketProvider = ({ children }) => {
       // Establish the socket connection with userId as a query parameter
       const newSocket = io("https://mernapp1.vercel.app", {
         query: { userId: authUser.user._id },
+        transports: ["polling"], // Temporarily try only "polling"
       });
+      
 
       setSocket(newSocket); // Save the socket instance in state
 
