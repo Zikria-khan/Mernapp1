@@ -15,7 +15,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("https://mernapp1.vercel.app", {
+      const socket = io("https://mernapp1.vercel.app/", {
         query: {
           userId: authUser.user._id,
         },

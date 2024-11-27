@@ -17,7 +17,7 @@ app.use(cookieParser());
 // Basic CORS Configuration
 app.use(
   cors({
-    origin: "*", // Allows requests from any origin
+    origin: "https://mernapp1-i423.vercel.app/", // Allows requests from any origin
     credentials: true, // Enables cookies to be included in requests
   })
 );
