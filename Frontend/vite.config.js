@@ -8,6 +8,7 @@ export default defineConfig({
     port: 3001,
     proxy: {
       "/api": {
+        target:"https://mernapp1-i423.vercel.app",
         changeOrigin: true,
       },
     },

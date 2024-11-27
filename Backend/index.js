@@ -18,9 +18,11 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: "https://mernapp1-i423.vercel.app", // Allow the frontend app domain
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow all common HTTP methods
     credentials: true, // Allow cookies to be included in requests
   })
 );
+
 
 
 app.get("/", (req, res) => {
