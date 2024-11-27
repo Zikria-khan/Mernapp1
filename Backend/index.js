@@ -14,19 +14,11 @@ dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
 
-// CORS Configuration
-const allowedOrigins = ["https://mernapp1-i423.vercel.app", "http://localhost:3001"];
+// Basic CORS Configuration
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or CURL)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, // Allow cookies to be sent with requests
+    origin: "*", // Allows requests from any origin
+    credentials: true, // Enables cookies to be included in requests
   })
 );
 
