@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // CORS Configuration
-const allowedOrigins = ["https://mernapp1.vercel.app", "http://localhost:3001"];
+const allowedOrigins = ["https://mernapp1-i423.vercel.app", "http://localhost:3001"];
 app.use(
   cors({
     origin: (origin, callback) => {
