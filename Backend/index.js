@@ -13,12 +13,29 @@ dotenv.config();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
-app.get("/",(req,res)=>{
-  res.status(200).json({
-    message:"Success is come only believe"
+
+// CORS Configuration
+const allowedOrigins = ["https://mernapp1.vercel.app", "http://localhost:3001"];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or CURL)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allow cookies to be sent with requests
   })
-})
+);
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Success is come only believe",
+  });
+});
+
 const PORT = process.env.PORT || 3001;
 const URI = process.env.MONGODB_URI;
 
@@ -26,13 +43,13 @@ const URI = process.env.MONGODB_URI;
 const connectDB = async () => {
   try {
     await mongoose.connect(URI, {
-      useNewUrlParser: true, // Ensures compatibility with modern connection strings
-      useUnifiedTopology: true, // Enables the new connection management engine
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
     console.log("Connected to MongoDB");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error.message);
-    process.exit(1); // Exit the process if the connection fails
+    process.exit(1);
   }
 };
 
