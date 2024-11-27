@@ -10,7 +10,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO with CORS settings
 const io = require("socket.io")(server, {
   cors: {
-      origin: "https://your-frontend-domain.com", // Replace with your frontend's domain
+      origin: "https://mernapp1-i423.vercel.app", // Replace with your frontend's domain
       methods: ["GET", "POST"],
       credentials: true, // If using cookies or authentication
   },
