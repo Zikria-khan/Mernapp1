@@ -1,0 +1,100 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    height: 100%;
+    font-family: "Arial", sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    overflow: hidden; /* Completely disable scrolling */
+  }
+  
+  /* App container: fixed height and flex layout */
+  .drawer {
+    display: flex;
+    height: 100vh; /* Full height of the viewport */
+    width: 100%;
+  }
+  
+  .drawer-side {
+    width: 30%; /* Sidebar occupies 30% */
+    min-width: 250px; /* Ensure usability */
+    background-color: #000; /* Sidebar background */
+    color: #fff;
+    overflow: hidden; /* Disable scrolling inside sidebar */
+  }
+  
+  .drawer-content {
+    width: 70%; /* Main content occupies 70% */
+    flex-grow: 1;
+    overflow: hidden; /* Disable scrolling inside content */
+    background-color: #f9f9f9;
+    padding: 20px;
+  }
+  
+  /* Ensure sidebar overlays properly for mobile */
+  .drawer-overlay {
+    display: none;
+  }
+  
+  .drawer-toggle:checked ~ .drawer-side .drawer-overlay {
+    display: block;
+  }
+  
+  /* Sidebar menu styles */
+  .menu {
+    list-style: none;
+    padding: 20px;
+  }
+  
+  .menu li {
+    margin-bottom: 15px;
+  }
+  
+  .menu li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    transition: color 0.3s ease;
+  }
+  
+  .menu li a:hover {
+    color: #007bff;
+  }
+  
+  /* Responsive styles for smaller screens */
+  @media (max-width: 768px) {
+    .drawer {
+      flex-direction: column;
+    }
+  
+    .drawer-side {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 100%; /* Sidebar takes full width */
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 10;
+    }
+  
+    .drawer-toggle:checked ~ .drawer-side {
+      transform: translateX(0);
+    }
+  
+    .drawer-content {
+      width: 100%;
+    }
+  
+    .drawer-overlay {
+      display: block;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9;
+    }
+  }
+  
