@@ -7,7 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://mernapp1-i423.vercel.app/",
+    origin: "https://mernapp1-i423.vercel.app",
     methods: ["GET", "POST"],
   },
 });
